@@ -22,7 +22,7 @@ $friends_stmt = $pdo->prepare("
 $friends_stmt->execute([$user_id, $user_id]);
 $friends = $friends_stmt->fetchAll(PDO::FETCH_ASSOC);
 $friend_ids = array_map(fn($friend) => $friend['id'], $friends);
-$friend_ids[] = $user_id; // Include user's own activity
+$friend_ids[] = $user_id; 
 
 $activities_stmt = $pdo->prepare("
     (SELECT 

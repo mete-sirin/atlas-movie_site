@@ -10,7 +10,7 @@ if (!isset($_SESSION['uid'])) {
 
 $user_id = $_SESSION['uid'];
 
-// Handle friend request actions via AJAX
+
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     header('Content-Type: application/json');
     $action = $_POST['action'] ?? '';
@@ -28,7 +28,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     exit;
 }
 
-// Get pending friend requests
+
 $requests_stmt = $pdo->prepare("
     SELECT f.*, u.username, u.email
     FROM friendships f
@@ -166,18 +166,18 @@ function handleRequest(action, friendId) {
     .then(response => response.json())
     .then(data => {
         if (data.success) {
-            // Remove the request card from the UI
+            
             const card = document.querySelector(`[data-friend-id="${friendId}"]`);
             card.remove();
             
-            // Check if there are any remaining requests
+           
             const remainingCards = document.querySelectorAll('.friend-request-card');
             if (remainingCards.length === 0) {
                 const section = document.querySelector('.friend-requests');
                 section.innerHTML = '<p class="no-notifications">No pending friend requests</p>';
             }
             
-            // Update the notification badge in the header
+           
             const badge = document.querySelector('.notification-badge');
             if (badge) {
                 const currentCount = parseInt(badge.textContent);
@@ -195,7 +195,7 @@ function handleRequest(action, friendId) {
     });
 }
 
-// Helper function to format dates
+
 function time_elapsed_string($datetime, $full = false) {
     $now = new Date();
     $past = new Date($datetime);

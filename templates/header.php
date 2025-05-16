@@ -36,7 +36,7 @@ if (isset($_SESSION['uid']) && !isset($_SESSION['is_admin'])) {
                 <a href="/atlas/social/notifications.php" class="notifications-icon">
                     🔔
                     <?php
-                    // Get count of unread notifications (friend requests)
+                   
                     $notif_stmt = $pdo->prepare("
                         SELECT COUNT(*) 
                         FROM friendships 

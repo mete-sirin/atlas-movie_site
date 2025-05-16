@@ -24,7 +24,7 @@ if (!$user) {
     exit;
 }
 
-// Get all reviews
+
 $reviews_stmt = $pdo->prepare("
     SELECT r.movie_id, r.rating, r.review, r.created_at
     FROM reviews r
