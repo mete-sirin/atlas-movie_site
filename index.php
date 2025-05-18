@@ -2,11 +2,11 @@
 session_start();
 $login_flag=false;
 require_once 'includes/db.php';
+require_once 'includes/config.php';
 require_once 'templates/header.php'; 
-$apiKey = '848df3823eaece087b9bd5baf5cb2805';
-$url = "https://api.themoviedb.org/3/movie/popular?api_key=$apiKey&language=en-US&page=1";
-$response = file_get_contents($url);
-$data = json_decode($response, true);
+
+$url = "https://api.themoviedb.org/3/movie/popular";
+$data = getTMDBData('/movie/popular', ['language' => 'en-US', 'page' => 1]);
 ?>
 
 <div class="main-container">

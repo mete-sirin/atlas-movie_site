@@ -28,7 +28,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     exit;
 }
 
-
 $requests_stmt = $pdo->prepare("
     SELECT f.*, u.username, u.email
     FROM friendships f
@@ -166,18 +165,15 @@ function handleRequest(action, friendId) {
     .then(response => response.json())
     .then(data => {
         if (data.success) {
-            
             const card = document.querySelector(`[data-friend-id="${friendId}"]`);
             card.remove();
             
-           
             const remainingCards = document.querySelectorAll('.friend-request-card');
             if (remainingCards.length === 0) {
                 const section = document.querySelector('.friend-requests');
                 section.innerHTML = '<p class="no-notifications">No pending friend requests</p>';
             }
             
-           
             const badge = document.querySelector('.notification-badge');
             if (badge) {
                 const currentCount = parseInt(badge.textContent);
@@ -194,7 +190,6 @@ function handleRequest(action, friendId) {
         alert('An error occurred while processing the request');
     });
 }
-
 
 function time_elapsed_string($datetime, $full = false) {
     $now = new Date();

@@ -2,6 +2,7 @@
 session_start();
 require_once '../templates/header.php';
 require_once '../includes/db.php';
+require_once '../includes/config.php';
 
 if (!isset($_GET['id'])) {
     echo "<p>No movie ID provided.</p>";
@@ -9,31 +10,30 @@ if (!isset($_GET['id'])) {
 }
 
 $movie_id = (int) $_GET['id'];
-$apiKey = '848df3823eaece087b9bd5baf5cb2805';
 
-$url = "https://api.themoviedb.org/3/movie/$movie_id?api_key=$apiKey&language=en-US&append_to_response=keywords,translations";
-$response = file_get_contents($url);
-$movie = json_decode($response, true);
 
-$credits_url = "https://api.themoviedb.org/3/movie/$movie_id/credits?api_key=$apiKey";
-$credits_response = file_get_contents($credits_url);
-$credits = json_decode($credits_response, true);
+$movie = getTMDBData("/movie/$movie_id", [
+    'language' => 'en-US',
+    'append_to_response' => 'keywords,translations'
+]);
 
-$videos_url = "https://api.themoviedb.org/3/movie/$movie_id/videos?api_key=$apiKey";
-$videos_response = file_get_contents($videos_url);
-$videos = json_decode($videos_response, true);
 
-$providers_url = "https://api.themoviedb.org/3/movie/$movie_id/watch/providers?api_key=$apiKey";
-$providers_response = file_get_contents($providers_url);
-$providers = json_decode($providers_response, true);
+$credits = getTMDBData("/movie/$movie_id/credits");
 
-$details_url = "https://api.themoviedb.org/3/movie/$movie_id?api_key=$apiKey&language=en-US&append_to_response=keywords,release_dates,alternative_titles";
-$details_response = file_get_contents($details_url);
-$details = json_decode($details_response, true);
 
-$translations_url = "https://api.themoviedb.org/3/movie/$movie_id/translations?api_key=$apiKey";
-$translations_response = file_get_contents($translations_url);
-$translations = json_decode($translations_response, true);
+$videos = getTMDBData("/movie/$movie_id/videos");
+
+
+$providers = getTMDBData("/movie/$movie_id/watch/providers");
+
+
+$details = getTMDBData("/movie/$movie_id", [
+    'language' => 'en-US',
+    'append_to_response' => 'keywords,release_dates,alternative_titles'
+]);
+
+
+$translations = getTMDBData("/movie/$movie_id/translations");
 
 $additional_descriptions = [];
 if (isset($translations['translations'])) {

@@ -23,3 +23,4 @@ Atlas is a web application that allows users to create, manage, and share movie 
 * **External API:** TMDB (The Movie Database)
 
 
+

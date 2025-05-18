@@ -38,13 +38,11 @@ class NotificationSystem {
         
         this.container.appendChild(notification);
         
-       
         requestAnimationFrame(() => {
             notification.style.transform = 'translateX(0)';
             notification.style.opacity = '1';
         });
         
-       
         if (duration > 0) {
             setTimeout(() => this.hide(notification), duration);
         }
@@ -87,6 +85,5 @@ class NotificationSystem {
         }
     }
 }
-
 
 window.notifications = new NotificationSystem(); 

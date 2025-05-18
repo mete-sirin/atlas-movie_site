@@ -1,11 +1,9 @@
 <?php
 require_once 'templates/header.php'; 
-$query = urlencode($_GET['query']);
-$apiKey = '848df3823eaece087b9bd5baf5cb2805';
-$url = "https://api.themoviedb.org/3/search/movie?api_key=$apiKey&query=$query";
+require_once 'includes/config.php';
 
-$response = file_get_contents($url);
-$data = json_decode($response, true);
+$query = urlencode($_GET['query']);
+$data = getTMDBData('/search/movie', ['query' => $query]);
 $results = $data['results'];
 ?>
 
@@ -34,13 +32,13 @@ $results = $data['results'];
         </div>
 
         <div class="search-header">
-  <h1>Search Results for "<?php echo htmlspecialchars($_GET['query']); ?>"</h1>
+            <h1>Search Results for "<?php echo htmlspecialchars($_GET['query']); ?>"</h1>
             <p class="results-count"><?= count($results) ?> movies found</p>
         </div>
 
-  <?php if (!empty($results)): ?>
+        <?php if (!empty($results)): ?>
             <div class="movies-grid">
-      <?php foreach ($results as $movie): ?>
+                <?php foreach ($results as $movie): ?>
                     <div class="movie-card">
                         <a href="movies/movie.php?id=<?= $movie['id'] ?>" class="movie-link">
                             <div class="movie-poster">
@@ -62,15 +60,15 @@ $results = $data['results'];
                             </div>
                         </a>
                     </div>
-      <?php endforeach; ?>
+                <?php endforeach; ?>
             </div>
-  <?php else: ?>
+        <?php else: ?>
             <div class="no-results">
                 <p>No movies found matching your search.</p>
                 <p>Try adjusting your search terms or browse our movie collection.</p>
                 <a href="index.php" class="btn btn-primary">Browse Movies</a>
             </div>
-  <?php endif; ?>
+        <?php endif; ?>
     </div>
 </div>
 

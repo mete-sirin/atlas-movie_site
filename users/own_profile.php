@@ -1,5 +1,6 @@
 <?php
 require_once '../includes/db.php';
+require_once '../includes/config.php';
 require_once '../templates/header.php';
 if (session_status() === PHP_SESSION_NONE) {
     session_start();
@@ -77,7 +78,6 @@ $requests_stmt = $pdo->prepare("
 $requests_stmt->execute([$uid]);
 $incoming_requests = $requests_stmt->fetchAll(PDO::FETCH_ASSOC);
 
-$apiKey = '848df3823eaece087b9bd5baf5cb2805';
 ?>
 
 <div class="profile-container">
@@ -103,9 +103,7 @@ $apiKey = '848df3823eaece087b9bd5baf5cb2805';
                 <?php else: ?>
                     <?php foreach ($favorites as $favorite): 
                         $movie_id = $favorite['movie_id'];
-                        $url = "https://api.themoviedb.org/3/movie/$movie_id?api_key=$apiKey&language=en-US";
-                        $response = @file_get_contents($url);
-                        $movie = json_decode($response, true);
+                        $movie = getTMDBData("/movie/$movie_id", ['language' => 'en-US']);
                         
                         if ($movie && !isset($movie['status_code'])):
                     ?>
@@ -146,9 +144,7 @@ $apiKey = '848df3823eaece087b9bd5baf5cb2805';
                 <?php else: ?>
                     <?php foreach ($watch_later as $item): 
                         $movie_id = $item['movie_id'];
-                        $url = "https://api.themoviedb.org/3/movie/$movie_id?api_key=$apiKey&language=en-US";
-                        $response = @file_get_contents($url);
-                        $movie = json_decode($response, true);
+                        $movie = getTMDBData("/movie/$movie_id", ['language' => 'en-US']);
                         
                         if ($movie && !isset($movie['status_code'])):
                     ?>
@@ -240,9 +236,7 @@ $apiKey = '848df3823eaece087b9bd5baf5cb2805';
                     <div class="recent-reviews">
                         <?php foreach ($reviews as $review): 
                             $movie_id = $review['movie_id'];
-                            $url = "https://api.themoviedb.org/3/movie/$movie_id?api_key=$apiKey&language=en-US";
-                            $response = @file_get_contents($url);
-                            $movie = json_decode($response, true);
+                            $movie = getTMDBData("/movie/$movie_id", ['language' => 'en-US']);
                             
                             if ($movie && !isset($movie['status_code'])):
                         ?>

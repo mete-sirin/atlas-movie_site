@@ -1,5 +1,6 @@
 <?php
 require_once '../includes/db.php';
+require_once '../includes/config.php';
 session_start();
 
 
@@ -55,9 +56,7 @@ $apiKey = '848df3823eaece087b9bd5baf5cb2805';
             <?php 
             foreach ($reviews as $review): 
                 $movie_id = $review['movie_id'];
-                $url = "https://api.themoviedb.org/3/movie/$movie_id?api_key=$apiKey&language=en-US";
-                $response = @file_get_contents($url);
-                $movie = json_decode($response, true);
+                $movie = getTMDBData("/movie/$movie_id", ['language' => 'en-US']);
                 
                 if ($movie && !isset($movie['status_code'])):
             ?>
